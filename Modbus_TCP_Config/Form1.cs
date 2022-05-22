@@ -1,6 +1,7 @@
 ﻿using MetroFramework;
 using MetroFramework.Forms;
 using Modbus_TCP_Config.Core;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -23,7 +24,7 @@ namespace Modbus_TCP_Config
         private Queue<byte> recievedData = new Queue<byte>();
         delegate void SetTextDeleg(byte[] trama);
         string diaActual = "";
-
+        ILogger _logger;
         string evento = "";
         byte[] direccionIP = new byte[4];
         byte[] gatewayIP = new byte[4];
@@ -31,8 +32,38 @@ namespace Modbus_TCP_Config
         byte[] mascara = new byte[4];
         byte[] dns = new byte[4];
         byte[] puerto = new byte[2];
+
+        byte[] demo = new byte[]
+        {
+            20,
+            100
+            ,200
+            ,254
+            ,192
+            ,168
+            ,0
+            ,1
+            ,192
+            ,168
+            ,0
+            ,10
+            ,255
+            ,255
+            ,255
+            ,0
+             ,192
+            ,168
+            ,0
+            ,10
+
+        };
         public Form1()
         {
+
+            _logger = new LoggerConfiguration()
+                        .WriteTo.File("app_logs/log-.txt", rollingInterval: RollingInterval.Day)
+                        .CreateLogger();
+
             var serial = SerialPort.GetPortNames();
             InitializeComponent();
 
@@ -42,6 +73,8 @@ namespace Modbus_TCP_Config
 
         private void btnConectar_Click(object sender, EventArgs e)
         {
+            //evento = "ConectarEthernet";
+            //drawer(demo);
             if (cmbPorts.SelectedIndex == -1)
             {
                 MessageBox.Show("No selecciono un puerto");
@@ -69,10 +102,10 @@ namespace Modbus_TCP_Config
                     lblCOMEvent.BackColor = Color.Green;
                     btnConectarEthernet.Enabled = true;
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
                     lblCOMEvent.BackColor = Color.Red;
-
+                    _logger.Error(ex.Message);
                 }
 
             }
@@ -92,19 +125,19 @@ namespace Modbus_TCP_Config
         private void processData()
         {
 
-            if (evento == "ConectarEthernet" && recievedData.Count == 91)
+            if (evento == "ConectarEthernet" && recievedData.Count == 20)
             {
                 this.BeginInvoke(new SetTextDeleg(drawer), new object[] { recievedData.ToArray() });
             }
 
-            if ((evento == "CambiarIP" || evento == "btnGrabar" ) && recievedData.Count == 1)
+            if ((evento == "CambiarIP" || evento == "btnGrabar" ) && recievedData.Count == 4)
             {
                 this.BeginInvoke(new SetTextDeleg(drawer), new object[] { recievedData.ToArray() });
 
             }
-            if ((evento == "DesconectarEthernet"))
+            if ((evento == "DesconectarEthernet") && recievedData.Count == 4)
             {
-                this.BeginInvoke(new SetTextDeleg(drawer), new object[] { new byte[] { recievedData.ElementAt(0) } });
+                this.BeginInvoke(new SetTextDeleg(drawer), new object[] { new object[] { recievedData.ToArray() } });
 
             }
         }
@@ -112,8 +145,7 @@ namespace Modbus_TCP_Config
         private void drawer(byte[] trama)
         {
 
-
-            if (trama[0] == 1)
+            if (evento == "ConectarEthernet" && trama[3] == 254)
             {
                 CrearTrama(trama);
 
@@ -122,19 +154,34 @@ namespace Modbus_TCP_Config
                 btnConectarEthernet.Enabled = false;
                 cargaDireccionIP(direccionIP);
                 cargaGateWayIP(gatewayIP);
-                cargaMACIP(mac);
                 cargaMascara(mascara);
                 cargaDns(dns);
            
 
                 MessageBox.Show(" Dispositivo conectado");
             }
-            else if (trama[0] == 2)
+            else
             {
-                MessageBox.Show(" Dirección IP Cambiada!!");
+                _logger.Error($"ConectarEthernet: El valor de la posicion 4 de la trama es {trama[3]}");
+
+                MessageBox.Show($"ConectarEthernet: Error el valor de la posicion 4 de la trama es {trama[3]}");
+                
 
             }
-            else if (trama[0] == 3)
+
+            if (evento == "btnGrabar" && trama[3] == 254)
+            {
+                MessageBox.Show("Grabado con exito!!");
+
+            }
+            else
+            {
+                _logger.Error($"btnGrabar: El valor de la posicion 4 de la trama es {trama[3]}");
+
+                MessageBox.Show($"btnGrabar: Error el valor de la posicion 4 de la trama es {trama[3]}");
+
+            }
+           if (evento == "DesconectarEthernet" && trama[3] == 254)
             {
                 btnCambiarIP.Enabled = false;
                 btnDesconectarEthernet.Enabled = false;
@@ -147,7 +194,14 @@ namespace Modbus_TCP_Config
                 MessageBox.Show(" Dispositivo desconectado");
 
             }
-          
+            else
+            {
+                _logger.Error($"DesconectarEthernet: El valor de la posicion 4 de la trama es {trama[3]}");
+
+                MessageBox.Show($"DesconectarEthernet: Error el valor de la posicion 4 de la trama es {trama[3]}");
+
+            }
+
             recievedData.Clear();
 
 
@@ -155,27 +209,26 @@ namespace Modbus_TCP_Config
 
         private void CrearTrama(byte[] trama)
         {
-            direccionIP = trama.SubArray(1, 4);
+            direccionIP = trama.SubArray(4, 4);
            
-            gatewayIP = trama.SubArray(71, 4);
-            mac = trama.SubArray(75, 6);
-            mascara = trama.SubArray(81, 4);
-            dns = trama.SubArray(85, 4);
-            puerto = trama.SubArray(89, 2);
+            gatewayIP = trama.SubArray(8, 4);
+            mascara = trama.SubArray(12, 4);
+            dns = trama.SubArray(16, 4);
+            
 
 
-            var puerto1 = Convert.ToString(Convert.ToInt32(trama[89]), 2).PadLeft(8, '0');
-            var puerto2 = Convert.ToString(Convert.ToInt32(trama[90]), 2).PadLeft(8, '0');
+            //var puerto1 = Convert.ToString(Convert.ToInt32(trama[89]), 2).PadLeft(8, '0');
+            //var puerto2 = Convert.ToString(Convert.ToInt32(trama[90]), 2).PadLeft(8, '0');
 
 
-            var port = Convert.ToInt32(puerto2 + puerto1, 2);
-            if (Convert.ToInt32(trama[90]) == 0)
-            {
-                port = Convert.ToInt32(trama[89]);
-            }
+            //var port = Convert.ToInt32(puerto2 + puerto1, 2);
+            //if (Convert.ToInt32(trama[90]) == 0)
+            //{
+            //    port = Convert.ToInt32(trama[89]);
+            //}
 
-            txtPort.Text = port.ToString();
-            txtPort.Enabled = true;
+            //txtPort.Text = port.ToString();
+            //txtPort.Enabled = true;
         }
 
         private void cargaDireccionIP(byte[] direccionIP)
@@ -202,24 +255,7 @@ namespace Modbus_TCP_Config
             txtGateway3.Enabled = true;
             txtGateway4.Enabled = true;
         }
-        private void cargaMACIP(byte[] mac)
-        {
-            txtMac1.Text = mac[0].ToHexa();
-            txtMac2.Text = mac[1].ToHexa();
-            txtMac3.Text = mac[2].ToHexa();
-            txtMac4.Text = mac[3].ToHexa();
-            txtMac5.Text = mac[4].ToHexa();
-            txtMac6.Text = mac[5].ToHexa();
 
-
-            txtMac1.Enabled = true;
-            txtMac2.Enabled = true;
-            txtMac3.Enabled = true;
-            txtMac4.Enabled = true;
-            txtMac5.Enabled = true;
-            txtMac6.Enabled = true;
-
-        }
         private void cargaMascara(byte[] mac)
         {
             txtMascara1.Text = mac[0].ToString();
@@ -272,7 +308,7 @@ namespace Modbus_TCP_Config
             try
             {
                 evento = "ConectarEthernet";
-                byte[] data = { 3, 3, 1 };
+                byte[] data = { 20, 200, 100,81 };
                 _port.Write(data, 0, data.Length);
 
 
@@ -309,11 +345,7 @@ namespace Modbus_TCP_Config
                 return;
             }
 
-            if (Convert.ToInt32(txtPort.Text) <= 0)
-            {
-                MessageBox.Show("El valor del puerto incorrecto");
-                return;
-            }
+       
             if (!IsAddressValid(txtGateway1.Text + "." + txtGateway2.Text + "." + txtGateway3.Text + "." + txtGateway4.Text))
             {
                 MessageBox.Show("El formato de la  puerta de enlace es incorrecto los rangos son [0,255]");
@@ -326,12 +358,7 @@ namespace Modbus_TCP_Config
                 return;
             }
 
-            if (regex.IsMatch(txtMac1.Text))
-            {
-                MessageBox.Show("El formato de un valor de la mac es incorrecto los rangos son [0-9][A-F]");
-                return;
-            }
-
+       
             if (!IsAddressValid(txtDns1.Text + "." + txtDns2.Text + "." + txtDns3.Text + "." + txtDns4.Text))
             {
                 MessageBox.Show("El formato del  dns es incorrecto los rangos son [0,255]");
@@ -345,17 +372,16 @@ namespace Modbus_TCP_Config
 
                 byte[] direccionIP = { Convert.ToByte(txtBye1.Text), Convert.ToByte(txtBye2.Text), Convert.ToByte(txtBye3.Text), Convert.ToByte(txtBye4.Text) };
                 byte[] gatewayIP = { Convert.ToByte(txtGateway1.Text), Convert.ToByte(txtGateway2.Text), Convert.ToByte(txtGateway3.Text), Convert.ToByte(txtGateway4.Text) };
-                byte[] mac = { Convert.ToByte(txtMac1.Text.ToDecimalFromHexa()), Convert.ToByte(txtMac2.Text.ToDecimalFromHexa()), Convert.ToByte(txtMac3.Text.ToDecimalFromHexa())
-                            , Convert.ToByte(txtMac4.Text.ToDecimalFromHexa()), Convert.ToByte(txtMac5.Text.ToDecimalFromHexa()), Convert.ToByte(txtMac6.Text.ToDecimalFromHexa()) };
+               
                 byte[] mascara = { Convert.ToByte(txtMascara1.Text), Convert.ToByte(txtMascara2.Text), Convert.ToByte(txtMascara3.Text), Convert.ToByte(txtMascara4.Text) };
                 byte[] dns = { Convert.ToByte(txtDns1.Text), Convert.ToByte(txtDns2.Text), Convert.ToByte(txtDns3.Text), Convert.ToByte(txtDns4.Text) };
 
 
-                var portBinario = Convert.ToInt32(txtPort.Text).decimalBinario().ToString().PadLeft(16, '0');
+                //var portBinaro = Convert.ToInt32(txtPort.Text).decimalBinario().ToString().PadLeft(16, '0');
 
-                var port1 = ((byte)Convert.ToInt32(portBinario.Substring(0, 8), 2));
-                var port2 = (byte)Convert.ToInt32(portBinario.Substring(8, 8), 2);
-                var port = new byte[] { port2, port1 };
+                //var port1 = ((byte)Convert.ToInt32(portBinario.Substring(0, 8), 2));
+                //var port2 = (byte)Convert.ToInt32(portBinario.Substring(8, 8), 2);
+                //var port = new byte[] { port2, port1 };
 
                 byte[] data = { 3, 3, 2 };
                 data = data.Concat(direccionIP)
@@ -363,7 +389,7 @@ namespace Modbus_TCP_Config
                     .Concat(mac)
                     .Concat(mascara)
                     .Concat(dns)
-                    .Concat(port)
+                 
                     .ToArray();
 
                 _port.Write(data, 0, data.Length);
@@ -381,6 +407,11 @@ namespace Modbus_TCP_Config
         {
             IPAddress address;
             return IPAddress.TryParse(addrString, out address);
+        }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+          cmbPorts.DataSource = SerialPort.GetPortNames();
         }
     }
 }

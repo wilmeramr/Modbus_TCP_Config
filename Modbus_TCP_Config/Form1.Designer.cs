@@ -46,15 +46,8 @@
             this.txtMascara3 = new MetroFramework.Controls.MetroTextBox();
             this.txtMascara2 = new MetroFramework.Controls.MetroTextBox();
             this.txtMascara1 = new MetroFramework.Controls.MetroTextBox();
-            this.metroLabel3 = new MetroFramework.Controls.MetroLabel();
             this.metroLabel2 = new MetroFramework.Controls.MetroLabel();
             this.metroLabel1 = new MetroFramework.Controls.MetroLabel();
-            this.txtMac6 = new MetroFramework.Controls.MetroTextBox();
-            this.txtMac5 = new MetroFramework.Controls.MetroTextBox();
-            this.txtMac4 = new MetroFramework.Controls.MetroTextBox();
-            this.txtMac3 = new MetroFramework.Controls.MetroTextBox();
-            this.txtMac2 = new MetroFramework.Controls.MetroTextBox();
-            this.txtMac1 = new MetroFramework.Controls.MetroTextBox();
             this.txtGateway4 = new MetroFramework.Controls.MetroTextBox();
             this.txtGateway3 = new MetroFramework.Controls.MetroTextBox();
             this.txtGateway2 = new MetroFramework.Controls.MetroTextBox();
@@ -66,16 +59,17 @@
             this.btnCambiarIP = new MetroFramework.Controls.MetroButton();
             this.btnDesconectarEthernet = new MetroFramework.Controls.MetroButton();
             this.btnConectarEthernet = new MetroFramework.Controls.MetroButton();
-            this.metroLabel6 = new MetroFramework.Controls.MetroLabel();
-            this.txtPort = new MetroFramework.Controls.MetroTextBox();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
             // 
             this.groupBox1.BackColor = System.Drawing.Color.White;
+            this.groupBox1.Controls.Add(this.pictureBox1);
             this.groupBox1.Controls.Add(this.lblCOMEvent);
             this.groupBox1.Controls.Add(this.btnDesconectar);
             this.groupBox1.Controls.Add(this.btnConectar);
@@ -102,7 +96,7 @@
             // btnDesconectar
             // 
             this.btnDesconectar.Enabled = false;
-            this.btnDesconectar.Location = new System.Drawing.Point(290, 32);
+            this.btnDesconectar.Location = new System.Drawing.Point(335, 34);
             this.btnDesconectar.Margin = new System.Windows.Forms.Padding(2);
             this.btnDesconectar.Name = "btnDesconectar";
             this.btnDesconectar.Size = new System.Drawing.Size(82, 28);
@@ -113,7 +107,7 @@
             // btnConectar
             // 
             this.btnConectar.Highlight = true;
-            this.btnConectar.Location = new System.Drawing.Point(202, 32);
+            this.btnConectar.Location = new System.Drawing.Point(266, 34);
             this.btnConectar.Margin = new System.Windows.Forms.Padding(2);
             this.btnConectar.Name = "btnConectar";
             this.btnConectar.Size = new System.Drawing.Size(65, 28);
@@ -125,10 +119,10 @@
             // 
             this.cmbPorts.FormattingEnabled = true;
             this.cmbPorts.ItemHeight = 23;
-            this.cmbPorts.Location = new System.Drawing.Point(89, 35);
+            this.cmbPorts.Location = new System.Drawing.Point(30, 35);
             this.cmbPorts.Margin = new System.Windows.Forms.Padding(2);
             this.cmbPorts.Name = "cmbPorts";
-            this.cmbPorts.Size = new System.Drawing.Size(92, 29);
+            this.cmbPorts.Size = new System.Drawing.Size(151, 29);
             this.cmbPorts.TabIndex = 5;
             // 
             // groupBox2
@@ -157,8 +151,6 @@
             // 
             // groupBox3
             // 
-            this.groupBox3.Controls.Add(this.metroLabel6);
-            this.groupBox3.Controls.Add(this.txtPort);
             this.groupBox3.Controls.Add(this.metroLabel4);
             this.groupBox3.Controls.Add(this.metroLabel5);
             this.groupBox3.Controls.Add(this.txtDns4);
@@ -169,15 +161,8 @@
             this.groupBox3.Controls.Add(this.txtMascara3);
             this.groupBox3.Controls.Add(this.txtMascara2);
             this.groupBox3.Controls.Add(this.txtMascara1);
-            this.groupBox3.Controls.Add(this.metroLabel3);
             this.groupBox3.Controls.Add(this.metroLabel2);
             this.groupBox3.Controls.Add(this.metroLabel1);
-            this.groupBox3.Controls.Add(this.txtMac6);
-            this.groupBox3.Controls.Add(this.txtMac5);
-            this.groupBox3.Controls.Add(this.txtMac4);
-            this.groupBox3.Controls.Add(this.txtMac3);
-            this.groupBox3.Controls.Add(this.txtMac2);
-            this.groupBox3.Controls.Add(this.txtMac1);
             this.groupBox3.Controls.Add(this.txtGateway4);
             this.groupBox3.Controls.Add(this.txtGateway3);
             this.groupBox3.Controls.Add(this.txtGateway2);
@@ -198,7 +183,7 @@
             // metroLabel4
             // 
             this.metroLabel4.AutoSize = true;
-            this.metroLabel4.Location = new System.Drawing.Point(32, 117);
+            this.metroLabel4.Location = new System.Drawing.Point(31, 92);
             this.metroLabel4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.metroLabel4.Name = "metroLabel4";
             this.metroLabel4.Size = new System.Drawing.Size(38, 19);
@@ -209,7 +194,7 @@
             // 
             this.metroLabel5.AutoSize = true;
             this.metroLabel5.Cursor = System.Windows.Forms.Cursors.Default;
-            this.metroLabel5.Location = new System.Drawing.Point(32, 89);
+            this.metroLabel5.Location = new System.Drawing.Point(31, 64);
             this.metroLabel5.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.metroLabel5.Name = "metroLabel5";
             this.metroLabel5.Size = new System.Drawing.Size(65, 19);
@@ -219,7 +204,7 @@
             // txtDns4
             // 
             this.txtDns4.Enabled = false;
-            this.txtDns4.Location = new System.Drawing.Point(226, 115);
+            this.txtDns4.Location = new System.Drawing.Point(225, 90);
             this.txtDns4.Margin = new System.Windows.Forms.Padding(2);
             this.txtDns4.Name = "txtDns4";
             this.txtDns4.Size = new System.Drawing.Size(28, 22);
@@ -228,7 +213,7 @@
             // txtDns3
             // 
             this.txtDns3.Enabled = false;
-            this.txtDns3.Location = new System.Drawing.Point(193, 115);
+            this.txtDns3.Location = new System.Drawing.Point(192, 90);
             this.txtDns3.Margin = new System.Windows.Forms.Padding(2);
             this.txtDns3.Name = "txtDns3";
             this.txtDns3.Size = new System.Drawing.Size(28, 22);
@@ -237,7 +222,7 @@
             // txtDns2
             // 
             this.txtDns2.Enabled = false;
-            this.txtDns2.Location = new System.Drawing.Point(160, 115);
+            this.txtDns2.Location = new System.Drawing.Point(159, 90);
             this.txtDns2.Margin = new System.Windows.Forms.Padding(2);
             this.txtDns2.Name = "txtDns2";
             this.txtDns2.Size = new System.Drawing.Size(28, 22);
@@ -246,7 +231,7 @@
             // txtDns1
             // 
             this.txtDns1.Enabled = false;
-            this.txtDns1.Location = new System.Drawing.Point(127, 115);
+            this.txtDns1.Location = new System.Drawing.Point(126, 90);
             this.txtDns1.Margin = new System.Windows.Forms.Padding(2);
             this.txtDns1.Name = "txtDns1";
             this.txtDns1.Size = new System.Drawing.Size(28, 22);
@@ -255,7 +240,7 @@
             // txtMascara4
             // 
             this.txtMascara4.Enabled = false;
-            this.txtMascara4.Location = new System.Drawing.Point(226, 89);
+            this.txtMascara4.Location = new System.Drawing.Point(225, 64);
             this.txtMascara4.Margin = new System.Windows.Forms.Padding(2);
             this.txtMascara4.Name = "txtMascara4";
             this.txtMascara4.Size = new System.Drawing.Size(28, 22);
@@ -264,7 +249,7 @@
             // txtMascara3
             // 
             this.txtMascara3.Enabled = false;
-            this.txtMascara3.Location = new System.Drawing.Point(193, 89);
+            this.txtMascara3.Location = new System.Drawing.Point(192, 64);
             this.txtMascara3.Margin = new System.Windows.Forms.Padding(2);
             this.txtMascara3.Name = "txtMascara3";
             this.txtMascara3.Size = new System.Drawing.Size(28, 22);
@@ -273,7 +258,7 @@
             // txtMascara2
             // 
             this.txtMascara2.Enabled = false;
-            this.txtMascara2.Location = new System.Drawing.Point(160, 89);
+            this.txtMascara2.Location = new System.Drawing.Point(159, 64);
             this.txtMascara2.Margin = new System.Windows.Forms.Padding(2);
             this.txtMascara2.Name = "txtMascara2";
             this.txtMascara2.Size = new System.Drawing.Size(28, 22);
@@ -282,21 +267,11 @@
             // txtMascara1
             // 
             this.txtMascara1.Enabled = false;
-            this.txtMascara1.Location = new System.Drawing.Point(127, 89);
+            this.txtMascara1.Location = new System.Drawing.Point(126, 64);
             this.txtMascara1.Margin = new System.Windows.Forms.Padding(2);
             this.txtMascara1.Name = "txtMascara1";
             this.txtMascara1.Size = new System.Drawing.Size(28, 22);
             this.txtMascara1.TabIndex = 27;
-            // 
-            // metroLabel3
-            // 
-            this.metroLabel3.AutoSize = true;
-            this.metroLabel3.Location = new System.Drawing.Point(32, 63);
-            this.metroLabel3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.metroLabel3.Name = "metroLabel3";
-            this.metroLabel3.Size = new System.Drawing.Size(46, 19);
-            this.metroLabel3.TabIndex = 26;
-            this.metroLabel3.Text = "MAC :";
             // 
             // metroLabel2
             // 
@@ -318,60 +293,6 @@
             this.metroLabel1.Size = new System.Drawing.Size(85, 19);
             this.metroLabel1.TabIndex = 24;
             this.metroLabel1.Text = "Direccion IP :";
-            // 
-            // txtMac6
-            // 
-            this.txtMac6.Enabled = false;
-            this.txtMac6.Location = new System.Drawing.Point(291, 62);
-            this.txtMac6.Margin = new System.Windows.Forms.Padding(2);
-            this.txtMac6.Name = "txtMac6";
-            this.txtMac6.Size = new System.Drawing.Size(28, 22);
-            this.txtMac6.TabIndex = 23;
-            // 
-            // txtMac5
-            // 
-            this.txtMac5.Enabled = false;
-            this.txtMac5.Location = new System.Drawing.Point(258, 63);
-            this.txtMac5.Margin = new System.Windows.Forms.Padding(2);
-            this.txtMac5.Name = "txtMac5";
-            this.txtMac5.Size = new System.Drawing.Size(28, 22);
-            this.txtMac5.TabIndex = 22;
-            // 
-            // txtMac4
-            // 
-            this.txtMac4.Enabled = false;
-            this.txtMac4.Location = new System.Drawing.Point(225, 62);
-            this.txtMac4.Margin = new System.Windows.Forms.Padding(2);
-            this.txtMac4.Name = "txtMac4";
-            this.txtMac4.Size = new System.Drawing.Size(28, 22);
-            this.txtMac4.TabIndex = 21;
-            // 
-            // txtMac3
-            // 
-            this.txtMac3.Enabled = false;
-            this.txtMac3.Location = new System.Drawing.Point(192, 63);
-            this.txtMac3.Margin = new System.Windows.Forms.Padding(2);
-            this.txtMac3.Name = "txtMac3";
-            this.txtMac3.Size = new System.Drawing.Size(28, 22);
-            this.txtMac3.TabIndex = 20;
-            // 
-            // txtMac2
-            // 
-            this.txtMac2.Enabled = false;
-            this.txtMac2.Location = new System.Drawing.Point(159, 63);
-            this.txtMac2.Margin = new System.Windows.Forms.Padding(2);
-            this.txtMac2.Name = "txtMac2";
-            this.txtMac2.Size = new System.Drawing.Size(28, 22);
-            this.txtMac2.TabIndex = 19;
-            // 
-            // txtMac1
-            // 
-            this.txtMac1.Enabled = false;
-            this.txtMac1.Location = new System.Drawing.Point(126, 63);
-            this.txtMac1.Margin = new System.Windows.Forms.Padding(2);
-            this.txtMac1.Name = "txtMac1";
-            this.txtMac1.Size = new System.Drawing.Size(28, 22);
-            this.txtMac1.TabIndex = 18;
             // 
             // txtGateway4
             // 
@@ -478,24 +399,16 @@
             this.btnConectarEthernet.Text = "Conectar";
             this.btnConectarEthernet.Click += new System.EventHandler(this.btnConectarEthernet_Click);
             // 
-            // metroLabel6
+            // pictureBox1
             // 
-            this.metroLabel6.AutoSize = true;
-            this.metroLabel6.Location = new System.Drawing.Point(267, 12);
-            this.metroLabel6.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.metroLabel6.Name = "metroLabel6";
-            this.metroLabel6.Size = new System.Drawing.Size(52, 19);
-            this.metroLabel6.TabIndex = 39;
-            this.metroLabel6.Text = "Puerto:";
-            // 
-            // txtPort
-            // 
-            this.txtPort.Enabled = false;
-            this.txtPort.Location = new System.Drawing.Point(322, 11);
-            this.txtPort.Margin = new System.Windows.Forms.Padding(2);
-            this.txtPort.Name = "txtPort";
-            this.txtPort.Size = new System.Drawing.Size(47, 22);
-            this.txtPort.TabIndex = 37;
+            this.pictureBox1.Image = global::Modbus_TCP_Config.Properties.Resources._189687;
+            this.pictureBox1.Location = new System.Drawing.Point(186, 35);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(31, 29);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox1.TabIndex = 9;
+            this.pictureBox1.TabStop = false;
+            this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
             // 
             // Form1
             // 
@@ -511,6 +424,7 @@
             this.groupBox2.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -535,15 +449,8 @@
         private MetroFramework.Controls.MetroTextBox txtMascara3;
         private MetroFramework.Controls.MetroTextBox txtMascara2;
         private MetroFramework.Controls.MetroTextBox txtMascara1;
-        private MetroFramework.Controls.MetroLabel metroLabel3;
         private MetroFramework.Controls.MetroLabel metroLabel2;
         private MetroFramework.Controls.MetroLabel metroLabel1;
-        private MetroFramework.Controls.MetroTextBox txtMac6;
-        private MetroFramework.Controls.MetroTextBox txtMac5;
-        private MetroFramework.Controls.MetroTextBox txtMac4;
-        private MetroFramework.Controls.MetroTextBox txtMac3;
-        private MetroFramework.Controls.MetroTextBox txtMac2;
-        private MetroFramework.Controls.MetroTextBox txtMac1;
         private MetroFramework.Controls.MetroTextBox txtGateway4;
         private MetroFramework.Controls.MetroTextBox txtGateway3;
         private MetroFramework.Controls.MetroTextBox txtGateway2;
@@ -555,8 +462,7 @@
         private MetroFramework.Controls.MetroButton btnCambiarIP;
         private MetroFramework.Controls.MetroButton btnDesconectarEthernet;
         private MetroFramework.Controls.MetroButton btnConectarEthernet;
-        private MetroFramework.Controls.MetroLabel metroLabel6;
-        private MetroFramework.Controls.MetroTextBox txtPort;
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }
 
