@@ -327,7 +327,7 @@ namespace Modbus_TCP_Config
         {
             evento = "DesconectarEthernet";
 
-            byte[] data = { 3, 3, 3 };
+            byte[] data = { 20, 200,100, 83,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 };
             _port.Write(data, 0, data.Length);
         }
 
@@ -383,13 +383,11 @@ namespace Modbus_TCP_Config
                 //var port2 = (byte)Convert.ToInt32(portBinario.Substring(8, 8), 2);
                 //var port = new byte[] { port2, port1 };
 
-                byte[] data = { 3, 3, 2 };
+                byte[] data = { 20, 200,100, 82 };
                 data = data.Concat(direccionIP)
                     .Concat(gatewayIP)
-                    .Concat(mac)
                     .Concat(mascara)
                     .Concat(dns)
-                 
                     .ToArray();
 
                 _port.Write(data, 0, data.Length);
@@ -400,6 +398,8 @@ namespace Modbus_TCP_Config
             else
             {
                 MessageBox.Show("Problemas con el puerto");
+                _logger.Error($"btnCambiarIP_Click: El valor de la posicion 4 de la trama es {trama[3]}");
+
 
             }
         }
